@@ -2,7 +2,7 @@
 
 <!-- START DESCRIPTION lightstreamer-example-stocklist-client-tvos -->
 
-This project contains an example of application for Apple TV 4th generation that employs the [Lightstreamer tvOS Client library](http://www.lightstreamer.com/docs/client_tvos_api/index.html).
+This project contains an example of application for Apple TV 4th generation that employs the Lightstreamer tvOS Client library.
 
 ![screenshot](screenshot_large.png)
 
