@@ -6,6 +6,10 @@ This project contains an example of application for Apple TV 4th generation that
 
 ![screenshot](screenshot_large.png)
 
+This is how it looks on a real TV:
+
+![actual demo on tv](actual_demo_on_tv.gif)
+
 ## Details
 
 This app is an Objective-C version of the [Stock-List Demos](https://github.com/Lightstreamer/Lightstreamer-example-Stocklist-client-javascript).<br>
