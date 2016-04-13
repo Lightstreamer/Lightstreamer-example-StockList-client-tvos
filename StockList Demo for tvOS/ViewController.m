@@ -10,8 +10,6 @@
 #import "SpecialEffects.h"
 #import "Constants.h"
 
-#import <LightstreamerClient.h>
-
 
 #pragma mark -
 #pragma mark ViewController extension
@@ -19,8 +17,8 @@
 @interface ViewController () {
     dispatch_queue_t _backgroundQueue;
 
-    LSClient *_client;
-    LSSubscribedTableKey *_tableKey;
+    LSLightstreamerClient *_client;
+    LSSubscription *_subscription;
     
     NSMutableDictionary *_itemUpdated;
     NSMutableDictionary *_itemData;
@@ -68,7 +66,7 @@
         _backgroundQueue= dispatch_queue_create("backgroundQueue", 0);
         
         // Create the Lightstreamer client
-        _client= [[LSClient alloc] init];
+        _client= [[LSLightstreamerClient alloc] initWithServerAddress:PUSH_SERVER_URL adapterSet:ADAPTER_SET];
     }
     
     return self;
@@ -92,158 +90,110 @@
 #pragma mark Lightstreamer life cycle
 
 - (void) connectToPushServer {
-    @try {
-        NSLog(@"Connecting to push server %@...", PUSH_SERVER_URL);
-        
-        LSConnectionInfo *connectionInfo= [LSConnectionInfo connectionInfoWithPushServerURL:PUSH_SERVER_URL
-                                                                       pushServerControlURL:nil
-                                                                                       user:nil
-                                                                                   password:nil
-                                                                                    adapter:ADAPTER_SET];
-        
-        // The LSClient will reconnect automatically
-        [_client openConnectionWithInfo:connectionInfo delegate:self];
-        
-        NSLog(@"Connected to push server");
-        
-    } @catch (NSException *e) {
-        NSLog(@"Exception caught while connecting to push server: %@, reason: '%@', user info: %@", e.name, e.reason, e.userInfo);
-    }
+    NSLog(@"Connecting to push server %@...", PUSH_SERVER_URL);
+    
+    [_client addDelegate:self];
+    [_client connect];
 }
 
 - (void) subscribeToTable {
     NSLog(@"Subscribing to table...");
     
-    @try {
-        
-        // The LSClient will also resubscribe automatically
-        LSExtendedTableInfo *tableInfo= [LSExtendedTableInfo extendedTableInfoWithItems:TABLE_ITEMS
-                                                                                   mode:LSModeMerge
-                                                                                 fields:LIST_FIELDS
-                                                                            dataAdapter:DATA_ADAPTER
-                                                                               snapshot:YES];
-        
-        _tableKey= [_client subscribeTableWithExtendedInfo:tableInfo
-                                                  delegate:self
-                                           useCommandLogic:NO];
-        
-        NSLog(@"Subscribed to table");
-        
-    } @catch (NSException *e) {
-        NSLog(@"Exception caught while subscribing to table: %@, reason: '%@', user info: %@", e.name, e.reason, e.userInfo);
-    }
+    _subscription= [[LSSubscription alloc] initWithSubscriptionMode:@"MERGE" items:TABLE_ITEMS fields:LIST_FIELDS];
+    _subscription.dataAdapter= DATA_ADAPTER;
+    _subscription.requestedSnapshot= @"yes";
+    _subscription.requestedMaxFrequency= @"1.0";
+    
+    [_subscription addDelegate:self];
+    [_client subscribe:_subscription];
+    
+    NSLog(@"Subscribed to table");
 }
 
 
 #pragma mark -
-#pragma mark Methods of LSConnectionDelegate
+#pragma mark Methods of LSClientDelegate
 
-- (void) clientConnection:(LSClient *)client didStartSessionWithPolling:(BOOL)polling {
-    NSLog(@"Session started with polling: %@", (polling ? @"YES" : @"NO"));
+- (void) client:(nonnull LSLightstreamerClient *)client didChangeProperty:(nonnull NSString *)property {
+    NSLog(@"Client property changed: %@", property);
+}
+
+- (void) client:(nonnull LSLightstreamerClient *)client didChangeStatus:(nonnull NSString *)status {
+    NSLog(@"Client status changed: %@", status);
     
-    if (!_tableKey) {
+    if ([status hasPrefix:@"CONNECTED:"]) {
+        
+        // We subscribe, if not already subscribed. The LSClient will reconnect automatically
+        // in most of the cases, so we don't need to resubscribe each time.
+        if (!_subscription) {
+            dispatch_async(_backgroundQueue, ^{
+                [self subscribeToTable];
+            });
+        }
+        
+    } else if ([status hasPrefix:@"DISCONNECTED:"]) {
+        
+        // The client will reconnect automatically in this case.
+        
+    } else if ([status isEqualToString:@"DISCONNECTED"]) {
+        
+        // In this case the session has been closed by the server, the client
+        // will not automatically reconnect. Let's prepare for a new connection.
+        _subscription= nil;
+        
         dispatch_async(_backgroundQueue, ^{
-            [self subscribeToTable];
+            [self connectToPushServer];
         });
     }
 }
 
-- (void) clientConnection:(LSClient *)client didChangeActivityWarningStatus:(BOOL)warningStatus {
-    NSLog(@"Activity warning status changed: %@", (warningStatus ? @"ON" : @"OFF"));
-}
-
-- (void) clientConnectionDidEstablish:(LSClient *)client {
-    NSLog(@"Connection established");
-}
-
-- (void) clientConnectionDidClose:(LSClient *)client {
-    NSLog(@"Connection closed");
-    
-    // This event is called just by manually closing the connection,
-    // never happens in this example.
-}
-
-- (void) clientConnection:(LSClient *)client didEndWithCause:(int)cause {
-    NSLog(@"Connection ended with cause: %d", cause);
-    
-    // In this case the session has been forcibly closed by the server,
-    // the LSClient will not automatically reconnect, must reconnect manually
-    _tableKey= nil;
-
-    dispatch_async(_backgroundQueue, ^{
-        [self connectToPushServer];
-    });
-}
-
-- (void) clientConnection:(LSClient *)client didReceiveDataError:(LSPushServerException *)error {
-    NSLog(@"Data error: %@", error);
-}
-
-- (void) clientConnection:(LSClient *)client didReceiveServerFailure:(LSPushServerException *)failure {
-    NSLog(@"Server failure: %@", failure);
-    
-    // The LSClient will reconnect automatically in this case
-}
-
-- (void) clientConnection:(LSClient *)client didReceiveConnectionFailure:(LSPushConnectionException *)failure {
-    NSLog(@"Connection failure: %@", failure);
-    
-    // The LSClient will reconnect automatically in this case
-}
-
-- (void) clientConnection:(LSClient *)client isAboutToSendURLRequest:(NSMutableURLRequest *)urlRequest {}
-
 
 #pragma mark -
-#pragma mark Methods of LSTableDelegate
+#pragma mark Methods of LSSubscriptionDelegate
 
-- (void) table:(LSSubscribedTableKey *)tableKey itemPosition:(int)itemPosition itemName:(NSString *)itemName didUpdateWithInfo:(LSUpdateInfo *)updateInfo {
-    // This method is always called from a background thread
-    
-    NSLog(@"Item %@ updated", itemName);
-    
-    // Check and prepare the item's data structures
+- (void) subscription:(nonnull LSSubscription *)subscription didUpdateItem:(nonnull LSItemUpdate *)itemUpdate {
+    NSUInteger itemPosition= itemUpdate.itemPos;
     NSMutableDictionary *item= nil;
     NSMutableDictionary *itemUpdated= nil;
+    
     @synchronized (_itemData) {
-        item= [_itemData objectForKey:[NSNumber numberWithInt:(itemPosition -1)]];
+        item= [_itemData objectForKey:[NSNumber numberWithUnsignedInteger:(itemPosition -1)]];
         if (!item) {
-            item= [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_LIST_FIELDS];
-            [_itemData setObject:item forKey:[NSNumber numberWithInt:(itemPosition -1)]];
+            item= [[NSMutableDictionary alloc] init];
+            [_itemData setObject:item forKey:[NSNumber numberWithUnsignedInteger:(itemPosition -1)]];
         }
         
-        itemUpdated= [_itemUpdated objectForKey:[NSNumber numberWithInt:(itemPosition -1)]];
+        itemUpdated= [_itemUpdated objectForKey:[NSNumber numberWithUnsignedInteger:(itemPosition -1)]];
         if (!itemUpdated) {
-            itemUpdated= [[NSMutableDictionary alloc] initWithCapacity:NUMBER_OF_LIST_FIELDS];
-            [_itemUpdated setObject:itemUpdated forKey:[NSNumber numberWithInt:(itemPosition -1)]];
+            itemUpdated= [[NSMutableDictionary alloc] init];
+            [_itemUpdated setObject:itemUpdated forKey:[NSNumber numberWithUnsignedInteger:(itemPosition -1)]];
         }
     }
     
-    @synchronized (item) {
+    double previousLastPrice= 0.0;
+    for (NSString *fieldName in LIST_FIELDS) {
+        NSString *value= [itemUpdate valueWithFieldName:fieldName];
         
-        // Store the updated fields in the item's data structures
-        for (NSString *fieldName in LIST_FIELDS) {
-            NSString *value= [updateInfo currentValueOfFieldName:fieldName];
-            
-            if (value)
-                [item setObject:value forKey:fieldName];
-            else
-                [item setObject:[NSNull null] forKey:fieldName];
-            
-            if ([updateInfo isChangedValueOfFieldName:fieldName])
-                [itemUpdated setObject:[NSNumber numberWithBool:YES] forKey:fieldName];
-        }
+        // Save previous last price to choose blink color later
+        if ([fieldName isEqualToString:@"last_price"])
+            previousLastPrice= [[item objectForKey:fieldName] doubleValue];
         
-        // Evaluate the update color and store it in the item's data structures
-        double currentLastPrice= [[updateInfo currentValueOfFieldName:@"last_price"] doubleValue];
-        double previousLastPrice= [[updateInfo previousValueOfFieldName:@"last_price"] doubleValue];
-        if (currentLastPrice >= previousLastPrice)
-            [item setObject:@"green" forKey:@"color"];
+        if (value)
+            [item setObject:value forKey:fieldName];
         else
-            [item setObject:@"orange" forKey:@"color"];
+            [item setObject:[NSNull null] forKey:fieldName];
+        
+        if ([itemUpdate isValueChangedWithFieldName:fieldName])
+            [itemUpdated setObject:[NSNumber numberWithBool:YES] forKey:fieldName];
     }
     
-    // Mark rows to be reload
+    // Check variation and store appropriate color
+    double currentLastPrice= [[itemUpdate valueWithFieldName:@"last_price"] doubleValue];
+    if (currentLastPrice >= previousLastPrice)
+        [item setObject:@"green" forKey:@"color"];
+    else
+        [item setObject:@"orange" forKey:@"color"];
+    
     @synchronized (_rowsToBeReloaded) {
         [_rowsToBeReloaded addObject:[NSIndexPath indexPathForRow:(itemPosition -1) inSection:0]];
     }

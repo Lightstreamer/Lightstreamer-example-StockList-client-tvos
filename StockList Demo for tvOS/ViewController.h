@@ -7,10 +7,9 @@
 
 #import <UIKit/UIKit.h>
 
-#import "LSConnectionDelegate.h"
-#import "LSTableDelegate.h"
+#import <LightstreamerClientAll.h>
 
 
-@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, LSConnectionDelegate, LSTableDelegate>
+@interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, LSClientDelegate, LSSubscriptionDelegate>
 @end
 

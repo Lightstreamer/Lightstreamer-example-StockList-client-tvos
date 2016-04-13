@@ -23,41 +23,5 @@ DerivedData
 # Project specific
 deployment
 build_res
-include_crea_link_esterno.bat
-lib_crea_link_esterno.bat
-Internal StockList Demo for tvOS.xcodeproj
-Lightstreamer client for tvOS/compile_includes
-Lightstreamer client for tvOS/compile_libs
-Lightstreamer client for tvOS/include/LightstreamerClient.h
-Lightstreamer client for tvOS/include/LSClient.h
-Lightstreamer client for tvOS/include/LSConnectionConstraints.h
-Lightstreamer client for tvOS/include/LSConnectionDelegate.h
-Lightstreamer client for tvOS/include/LSConnectionInfo.h
-Lightstreamer client for tvOS/include/LSConnectionStatus.h
-Lightstreamer client for tvOS/include/LSException.h
-Lightstreamer client for tvOS/include/LSExtendedTableInfo.h
-Lightstreamer client for tvOS/include/LSLog.h
-Lightstreamer client for tvOS/include/LSLogDelegate.h
-Lightstreamer client for tvOS/include/LSMessageDelegate.h
-Lightstreamer client for tvOS/include/LSMessageInfo.h
-Lightstreamer client for tvOS/include/LSMode.h
-Lightstreamer client for tvOS/include/LSPushConnectionException.h
-Lightstreamer client for tvOS/include/LSPushServerException.h
-Lightstreamer client for tvOS/include/LSPushUpdateException.h
-Lightstreamer client for tvOS/include/LSSubscribedTableKey.h
-Lightstreamer client for tvOS/include/LSSubscriptionConstraints.h
-Lightstreamer client for tvOS/include/LSTableDelegate.h
-Lightstreamer client for tvOS/include/LSTableInfo.h
-Lightstreamer client for tvOS/include/LSUpdateInfo.h
-libLightstreamer_tvOS_client.a
-Lightstreamer client for tvOS/include/LSMPNTokenChangeInfo.h
-Lightstreamer client for tvOS/include/LSMPNTokenStatus.h
-Lightstreamer client for tvOS/include/LSMPNInfo.h
-Lightstreamer client for tvOS/include/LSMPNKey.h
-Lightstreamer client for tvOS/include/LSMPNStatus.h
-Lightstreamer client for tvOS/include/LSPushClientException.h
-Lightstreamer client for tvOS/include/LSMPNSubscriptionStatus.h
-Lightstreamer client for tvOS/include/LSMPNDeviceStatus.h
-Lightstreamer client for tvOS/include/LSMPNStatusInfo.h
-Lightstreamer client for tvOS/include/LSMPNSubscription.h
-
+Podfile.lock
+Pods/

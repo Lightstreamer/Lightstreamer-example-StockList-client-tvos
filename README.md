@@ -18,7 +18,8 @@ This app uses the <b>tvOS Client API for Lightstreamer</b> to handle the communi
 
 ## Install
 
-Binaries for the application are not provided.
+Binaries for the application are not provided, but it will be soon available on the Apple TV App Store. The downloaded app will connect to Lightstreamer's online demo server.
+
 
 ## Build
 
@@ -26,13 +27,24 @@ A full Xcode project specification, ready for compilation of the app sources, is
 
 ### Getting Started
 
-Before you can build this demo, you should complete this project with the Lighstreamer tvOS Client library. Follow these steps:
+Before you can build this demo, you need to install CocoaPods to handle the project dependency on the Lightstreamer iOS client library. Follow these steps:
 
-* Download the [Lightstreamer client for tvOS zip file](http://www.lightstreamer.com/repo/res/ls-tvos-client/1.0.0/ls-tvos-client-1.0.0.zip).
-* Drop into the `Lightstreamer client for tvOS/lib` folder of this project the *Lightstreamer_tvOS_client.a* file from the `lib` folder of the zip file.
-* Drop into the `Lightstreamer client for tvOS/include` folder of this project all the include files from the `include` folder of the zip file.
+* open a terminal and run the following command:
 
-Done this, the project should compile with no errors.
+```sh
+$ sudo gem install cocoapods
+```
+
+* `cd` into the directory where you downloaded this project and run the following command:
+
+```sh
+$ pod install
+```
+
+* CocoaPods should now resolve the dependency on the Lightstreamer iOS client library and prepare a workspace for you.
+
+Done this, open the workspace with Xcode and it should compile with no errors. In case of errors during dependency resolution, you can find more information on [CocoaPods official website](https://cocoapods.org).
+
 
 ### Compile and Run
 
@@ -60,5 +72,6 @@ Done this, the app should run correctly on the simulator and connect to your ser
 
 ## Lightstreamer Compatibility Notes
 
-* Compatible with Lightstreamer tvOS Client Library version 1.0 or newer 1.x version.
-* For Lightstreamer Allegro (+ iOS Client API support), Presto, Vivace, version 6.0 or greater.
+* Compatible with Lightstreamer tvOS Client Library version 2.0.0 or newer.
+* For Lightstreamer Allegro (+ tvOS Client API support), Presto, Vivace, version 6.0.2 or greater.
+* For a version of this example compatible with Lightstreamer tvOS Client API version 1.x, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-client-1.x).
