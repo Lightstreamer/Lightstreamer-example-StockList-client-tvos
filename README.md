@@ -4,7 +4,7 @@
 
 This project contains an example of application for Apple TV 4th generation that employs the Lightstreamer tvOS Client library.
 
-![screenshot](screenshot_large.png)
+[![screenshot](screenshot_large.png)](https://itunes.apple.com/us/app/lightstreamer-stock-list-for/id1089549368?mt=8)
 
 This is how it looks on a real TV:
 
@@ -18,8 +18,7 @@ This app uses the <b>tvOS Client API for Lightstreamer</b> to handle the communi
 
 ## Install
 
-Binaries for the application are not provided, but it will be soon available on the Apple TV App Store. The downloaded app will connect to Lightstreamer's online demo server.
-
+Binaries for the application are not provided, but it may be downloaded from the App Store at [this address](https://itunes.apple.com/us/app/lightstreamer-stock-list-for/id1089549368?mt=8). The downloaded app will connect to Lightstreamer's online demo server.
 
 ## Build
 
