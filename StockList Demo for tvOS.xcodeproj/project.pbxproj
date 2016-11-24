@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		29E30C6FBE9173B62D3825EC /* libPods-StockList Demo for tvOS.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 14147534317A02A04ADD9CB4 /* libPods-StockList Demo for tvOS.a */; };
 		8C8685541C872363006DD10A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685531C872363006DD10A /* main.m */; };
 		8C8685571C872363006DD10A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685561C872363006DD10A /* AppDelegate.m */; };
 		8C86855A1C872363006DD10A /* ViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685591C872363006DD10A /* ViewController.m */; };
@@ -17,10 +16,11 @@
 		8CCDE8591C887BAA00EC369E /* SpecialEffects.m in Sources */ = {isa = PBXBuildFile; fileRef = 8CCDE8581C887BAA00EC369E /* SpecialEffects.m */; };
 		8CCDE85D1C887D5B00EC369E /* StockListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CCDE85B1C887D5B00EC369E /* StockListCell.xib */; };
 		8CCDE8601C887D7600EC369E /* StockListSection.xib in Resources */ = {isa = PBXBuildFile; fileRef = 8CCDE85E1C887D7600EC369E /* StockListSection.xib */; };
+		D8E2C8D91DCE5104602DE9A2 /* Pods_StockList_Demo_for_tvOS.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 01B0B5675839686A6A73CE90 /* Pods_StockList_Demo_for_tvOS.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		14147534317A02A04ADD9CB4 /* libPods-StockList Demo for tvOS.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-StockList Demo for tvOS.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		01B0B5675839686A6A73CE90 /* Pods_StockList_Demo_for_tvOS.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_StockList_Demo_for_tvOS.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		155BEC7FB6B25C6BA416D29E /* Pods-StockList Demo for tvOS.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockList Demo for tvOS.release.xcconfig"; path = "Pods/Target Support Files/Pods-StockList Demo for tvOS/Pods-StockList Demo for tvOS.release.xcconfig"; sourceTree = "<group>"; };
 		1C13D363A5E2A69DDDDCFD59 /* Pods-StockList Demo for tvOS.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-StockList Demo for tvOS.debug.xcconfig"; path = "Pods/Target Support Files/Pods-StockList Demo for tvOS/Pods-StockList Demo for tvOS.debug.xcconfig"; sourceTree = "<group>"; };
 		8C86854F1C872363006DD10A /* Lightstreamer StockList for TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lightstreamer StockList for TV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -48,7 +48,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				29E30C6FBE9173B62D3825EC /* libPods-StockList Demo for tvOS.a in Frameworks */,
+				D8E2C8D91DCE5104602DE9A2 /* Pods_StockList_Demo_for_tvOS.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -117,7 +117,7 @@
 			children = (
 				8C8685691C872F0D006DD10A /* SystemConfiguration.framework */,
 				8C8685661C8728F8006DD10A /* libLightstreamer_tvOS_client.a */,
-				14147534317A02A04ADD9CB4 /* libPods-StockList Demo for tvOS.a */,
+				01B0B5675839686A6A73CE90 /* Pods_StockList_Demo_for_tvOS.framework */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -129,12 +129,12 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = 8C8685631C872363006DD10A /* Build configuration list for PBXNativeTarget "StockList Demo for tvOS" */;
 			buildPhases = (
-				9F7798B6ADAC63429D998D7D /* 📦 Check Pods Manifest.lock */,
+				9F7798B6ADAC63429D998D7D /* [CP] Check Pods Manifest.lock */,
 				8C86854B1C872363006DD10A /* Sources */,
 				8C86854C1C872363006DD10A /* Frameworks */,
 				8C86854D1C872363006DD10A /* Resources */,
-				0BCC40855A89014F862F2E14 /* 📦 Embed Pods Frameworks */,
-				B4C57368D43940E0DD487C9C /* 📦 Copy Pods Resources */,
+				0BCC40855A89014F862F2E14 /* [CP] Embed Pods Frameworks */,
+				B4C57368D43940E0DD487C9C /* [CP] Copy Pods Resources */,
 			);
 			buildRules = (
 			);
@@ -151,12 +151,13 @@
 		8C8685471C872363006DD10A /* Project object */ = {
 			isa = PBXProject;
 			attributes = {
-				LastUpgradeCheck = 0720;
+				LastUpgradeCheck = 0800;
 				ORGANIZATIONNAME = Lightstreamer;
 				TargetAttributes = {
 					8C86854E1C872363006DD10A = {
 						CreatedOnToolsVersion = 7.2.1;
 						DevelopmentTeam = 7PGFJN8WH5;
+						ProvisioningStyle = Manual;
 					};
 				};
 			};
@@ -193,14 +194,14 @@
 /* End PBXResourcesBuildPhase section */
 
 /* Begin PBXShellScriptBuildPhase section */
-		0BCC40855A89014F862F2E14 /* 📦 Embed Pods Frameworks */ = {
+		0BCC40855A89014F862F2E14 /* [CP] Embed Pods Frameworks */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Embed Pods Frameworks";
+			name = "[CP] Embed Pods Frameworks";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -208,29 +209,29 @@
 			shellScript = "\"${SRCROOT}/Pods/Target Support Files/Pods-StockList Demo for tvOS/Pods-StockList Demo for tvOS-frameworks.sh\"\n";
 			showEnvVarsInLog = 0;
 		};
-		9F7798B6ADAC63429D998D7D /* 📦 Check Pods Manifest.lock */ = {
+		9F7798B6ADAC63429D998D7D /* [CP] Check Pods Manifest.lock */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Check Pods Manifest.lock";
+			name = "[CP] Check Pods Manifest.lock";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 			shellPath = /bin/sh;
-			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [[ $? != 0 ]] ; then\n    cat << EOM\nerror: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\nEOM\n    exit 1\nfi\n";
+			shellScript = "diff \"${PODS_ROOT}/../Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n";
 			showEnvVarsInLog = 0;
 		};
-		B4C57368D43940E0DD487C9C /* 📦 Copy Pods Resources */ = {
+		B4C57368D43940E0DD487C9C /* [CP] Copy Pods Resources */ = {
 			isa = PBXShellScriptBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
 			);
 			inputPaths = (
 			);
-			name = "📦 Copy Pods Resources";
+			name = "[CP] Copy Pods Resources";
 			outputPaths = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -296,8 +297,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -339,8 +342,10 @@
 				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
 				CLANG_WARN_EMPTY_BODY = YES;
 				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
 				CLANG_WARN_INT_CONVERSION = YES;
 				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
 				CLANG_WARN_UNREACHABLE_CODE = YES;
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
@@ -370,10 +375,14 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
 				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 7PGFJN8WH5;
 				INFOPLIST_FILE = "StockList Demo for tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstreamer.tvos.stocklist;
 				PRODUCT_NAME = "Lightstreamer StockList for TV";
+				PROVISIONING_PROFILE = "675f9aa6-6c49-4e65-a85a-b930f5e8e56b";
+				PROVISIONING_PROFILE_SPECIFIER = "LS StockList tvOS";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Debug;
@@ -384,11 +393,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = "App Icon & Top Shelf Image";
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				CODE_SIGN_IDENTITY = "iPhone Distribution";
+				CODE_SIGN_IDENTITY = "iPhone Developer";
+				"CODE_SIGN_IDENTITY[sdk=appletvos*]" = "iPhone Distribution";
+				DEVELOPMENT_TEAM = 7PGFJN8WH5;
 				INFOPLIST_FILE = "StockList Demo for tvOS/Info.plist";
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstreamer.tvos.stocklist;
 				PRODUCT_NAME = "Lightstreamer StockList for TV";
+				PROVISIONING_PROFILE = "675f9aa6-6c49-4e65-a85a-b930f5e8e56b";
+				PROVISIONING_PROFILE_SPECIFIER = "LS StockList tvOS";
 				TVOS_DEPLOYMENT_TARGET = 9.0;
 			};
 			name = Release;

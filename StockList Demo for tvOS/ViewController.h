@@ -7,7 +7,7 @@
 
 #import <UIKit/UIKit.h>
 
-#import <LightstreamerClientAll.h>
+#import <Lightstreamer_tvOS_Client/Lightstreamer_tvOS_Client.h>
 
 
 @interface ViewController : UIViewController <UITableViewDelegate, UITableViewDataSource, LSClientDelegate, LSSubscriptionDelegate>
