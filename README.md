@@ -7,7 +7,7 @@ This project contains an example of application for Apple TV 4th generation that
 ## Live Demo
 
 [![screenshot](screenshot_large.png)](https://itunes.apple.com/us/app/lightstreamer-stock-list-for/id1089549368?mt=8)<br>
-###[![](http://demos.lightstreamer.com/site/img/play.png) View live demo](https://itunes.apple.com/us/app/lightstreamer-stock-list-for/id1089549368?mt=8)<br>
+### [![](http://demos.lightstreamer.com/site/img/play.png) View live demo](https://itunes.apple.com/us/app/lightstreamer-stock-list-for/id1089549368?mt=8)<br>
 
 This is how it looks on a real TV:
 
