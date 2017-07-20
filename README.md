@@ -74,6 +74,6 @@ Done this, the app should run correctly on the simulator and connect to your ser
 
 ## Lightstreamer Compatibility Notes
 
-* Compatible with Lightstreamer tvOS Client Library version 2.0.0 or newer.
+* Compatible with Lightstreamer tvOS Client Library version 3.0.0-beta or newer.
 * For Lightstreamer Allegro (+ tvOS Client API support), Presto, Vivace, version 6.0.2 or greater.
 * For a version of this example compatible with Lightstreamer tvOS Client API version 1.x, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-client-1.x).
