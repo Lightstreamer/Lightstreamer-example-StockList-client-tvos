@@ -202,13 +202,13 @@
         
         // Update the table view
         NSMutableArray *rowsToBeReloaded= nil;
-        @synchronized (_rowsToBeReloaded) {
-            rowsToBeReloaded= [[NSMutableArray alloc] initWithCapacity:[_rowsToBeReloaded count]];
+        @synchronized (self->_rowsToBeReloaded) {
+            rowsToBeReloaded= [[NSMutableArray alloc] initWithCapacity:[self->_rowsToBeReloaded count]];
             
-            for (NSIndexPath *indexPath in _rowsToBeReloaded)
+            for (NSIndexPath *indexPath in self->_rowsToBeReloaded)
                 [rowsToBeReloaded addObject:indexPath];
             
-            [_rowsToBeReloaded removeAllObjects];
+            [self->_rowsToBeReloaded removeAllObjects];
         }
         
         // Ask the table to reload the marked rows
