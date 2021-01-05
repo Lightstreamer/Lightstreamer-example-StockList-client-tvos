@@ -25,30 +25,7 @@ Binaries for the application are not provided, but it may be downloaded from the
 
 ## Build
 
-A full Xcode project specification, ready for compilation of the app sources, is provided. Please recall that you need a valid Apple Developer Program membership to run or debug your app on a test device.
-
-### Getting Started
-
-Before you can build this demo, you need to install CocoaPods to handle the project dependency on the Lightstreamer tvOS client library (see also the Lightstreamer Compatiblity Notes below).
-
-Follow these steps:
-
-* open a terminal and run the following command:
-
-```sh
-$ sudo gem install cocoapods
-```
-
-* `cd` into the directory where you downloaded this project and run the following command:
-
-```sh
-$ pod install
-```
-
-* CocoaPods should now resolve the dependency on the Lightstreamer tvOS client library and prepare a workspace for you.
-
-Done this, open the workspace with Xcode and it should compile with no errors. In case of errors during dependency resolution, you can find more information on [CocoaPods official website](https://cocoapods.org).
-
+A full Xcode project, ready for compilation of the app sources, is provided. Please recall that you need a valid Apple Developer Program membership to run or debug your app on a test device.
 
 ### Compile and Run
 
@@ -76,8 +53,6 @@ Done this, the app should run correctly on the simulator and connect to your ser
 
 ## Lightstreamer Compatibility Notes
 
-* Code compatible with Lightstreamer tvOS Client Library version 3.0.0-beta or newer.
-* Ensure that tvOS Client API is supported by Lightstreamer Server license configuration. Server compatibility depends on the tvOS Client Library in use, which is specified in the `Podfile`:
-  * By default the project uses tvOS Client Library version 4.0.0, which requires a Server version 7.0 or newer.
-  * Use tvOS Client Library version 3.0.1 for compatibility with Server version 6.1.
+* Code compatible with Lightstreamer tvOS Client Library version 4.0.0 or newer.
+* For Lightstreamer Server version 7.0 or greater. Ensure that tvOS Client API is supported by Lightstreamer Server license configuration.
 * For a version of this example compatible with Lightstreamer tvOS Client API version 1.x, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-client-1.x).
