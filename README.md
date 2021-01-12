@@ -54,6 +54,6 @@ Done this, the app should run correctly on the simulator and connect to your ser
 ## Lightstreamer Compatibility Notes
 
 * Code compatible with Lightstreamer tvOS Client Library version 4.0.0 or newer.
-* For Lightstreamer Server version 7.0 or greater. Ensure that tvOS Client API is supported by Lightstreamer Server license configuration.
-* For a version of this example compatible with Lightstreamer tvOS Client API version 2.x up to 4.2.1, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-cocoapods).
-* For a version of this example compatible with Lightstreamer tvOS Client API version 1.x, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-client-1.x).
+* Build instructions compatible with Lightstreamer tvOS Client SDK version 4.3.0 or newer.
+* For Lightstreamer Server version 7.0 or greater. Ensure that tvOS Client SDK is supported by Lightstreamer Server license configuration.
+* For a version of this example compatible with Lightstreamer tvOS Client SDK versions up to 4.2.1, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-cocoapods).
