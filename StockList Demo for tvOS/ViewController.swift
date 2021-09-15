@@ -10,12 +10,13 @@ import Lightstreamer_tvOS_Client
 import UIKit
 
 class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LSClientDelegate, LSSubscriptionDelegate {
-    private var backgroundQueue: DispatchQueue?
-    private var client: LSLightstreamerClient?
+    private let backgroundQueue: DispatchQueue
+    private let lockQueue = DispatchQueue(label: "com.lightstreamer.ViewController")
+    private let client: LSLightstreamerClient
     private var subscription: LSSubscription?
-    private var itemUpdated: [AnyHashable : Any]?
-    private var itemData: [AnyHashable : Any]?
-    private var rowsToBeReloaded: Set<AnyHashable>?
+    private var itemUpdated: [Int : [String : Bool]]
+    private var itemData: [Int : [String : String?]]
+    private var rowsToBeReloaded: Set<IndexPath>
 
     // MARK: -
     // MARK: Properties
@@ -25,19 +26,19 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: Initialization
 
     required init?(coder aDecoder: NSCoder) {
+        // Data structure
+        itemUpdated = [:]
+        itemData = [:]
+        
+        // List of rows marked to be reloaded by the table
+        rowsToBeReloaded = Set<IndexPath>() // capacity: NUMBER_OF_ITEMS
+        
+        // Queue for background execution
+        backgroundQueue = DispatchQueue(label: "com.lightstreamer.backgroundQueue")
+        
+        // Create the Lightstreamer client
+        client = LSLightstreamerClient(serverAddress: PUSH_SERVER_URL, adapterSet: ADAPTER_SET)
         super.init(coder: aDecoder)
-            // Data structure
-            itemUpdated = [:]
-            itemData = [:]
-
-            // List of rows marked to be reloaded by the table
-            rowsToBeReloaded = Set<AnyHashable>() // capacity: NUMBER_OF_ITEMS
-
-            // Queue for background execution
-            backgroundQueue = DispatchQueue(label: "backgroundQueue")
-
-            // Create the Lightstreamer client
-            client = LSLightstreamerClient(serverAddress: PUSH_SERVER_URL, adapterSet: ADAPTER_SET)
     }
 
     // MARK: -
@@ -47,7 +48,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         super.viewDidLoad()
 
         // Start connecting in background
-        backgroundQueue?.async(execute: { [self] in
+        backgroundQueue.async(execute: { [self] in
             connectToPushServer()
         })
     }
@@ -57,8 +58,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func connectToPushServer() {
         print("Connecting to push server \(PUSH_SERVER_URL)...")
 
-        client?.addDelegate(self)
-        client?.connect()
+        client.addDelegate(self)
+        client.connect()
     }
 
     private func subscribeToTable() {
@@ -70,7 +71,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         subscription?.requestedMaxFrequency = "1.0"
 
         subscription?.addDelegate(self)
-        client?.subscribe(subscription)
+        client.subscribe(subscription!)
 
         print("Subscribed to table")
     }
@@ -90,7 +91,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // We subscribe, if not already subscribed. The LSClient will reconnect automatically
             // in most of the cases, so we don't need to resubscribe each time.
             if subscription == nil {
-                backgroundQueue?.async(execute: { [self] in
+                backgroundQueue.async(execute: { [self] in
                     subscribeToTable()
                 })
             }
@@ -103,7 +104,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             // will not automatically reconnect. Let's prepare for a new connection.
             subscription = nil
 
-            backgroundQueue?.async(execute: { [self] in
+            backgroundQueue.async(execute: { [self] in
                 connectToPushServer()
             })
         }
@@ -113,22 +114,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK: Methods of LSSubscriptionDelegate
 
     func subscription(_ subscription: LSSubscription, didUpdateItem itemUpdate: LSItemUpdate) {
-        let itemPosition = itemUpdate.itemPos
-        var item: [AnyHashable : Any]? = nil
-        var itemUpdated: [AnyHashable : Any]? = nil
+        let itemPosition = Int(itemUpdate.itemPos)
+        var item: [String : String?]?
+        var itemUpdated: [String : Bool]?
 
-        let lockQueue = DispatchQueue(label: "itemData")
         lockQueue.sync {
-            item = itemData?[NSNumber(value: UInt((itemPosition - 1)))] as? [AnyHashable : Any]
+            item = itemData[itemPosition - 1]
             if item == nil {
                 item = [:]
-                itemData?[NSNumber(value: UInt((itemPosition - 1)))] = item
+                itemData[itemPosition - 1] = item
             }
 
-            itemUpdated = self.itemUpdated?[NSNumber(value: UInt((itemPosition - 1)))] as? [AnyHashable : Any]
+            itemUpdated = self.itemUpdated[itemPosition - 1]
             if itemUpdated == nil {
                 itemUpdated = [:]
-                self.itemUpdated?[NSNumber(value: UInt((itemPosition - 1)))] = itemUpdated
+                self.itemUpdated[itemPosition - 1] = itemUpdated
             }
         }
 
@@ -138,55 +138,48 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
             // Save previous last price to choose blink color later
             if fieldName == "last_price" {
-                previousLastPrice = (item?[fieldName] as? NSNumber)?.doubleValue ?? 0.0
+                previousLastPrice = toDouble(item?[fieldName] ?? "0")
             }
 
             if value != "" {
                 item?[fieldName] = value
             } else {
-                item?[fieldName] = NSNull()
+                item?[fieldName] = nil
             }
 
             if itemUpdate.isValueChanged(withFieldName: fieldName) {
-                itemUpdated?[fieldName] = NSNumber(value: true)
+                itemUpdated?[fieldName] = true
             }
         }
 
         // Check variation and store appropriate color
-        let currentLastPrice = itemUpdate.value(withFieldName: "last_price").doubleValue
+        let currentLastPrice = toDouble(itemUpdate.value(withFieldName: "last_price"))
         if currentLastPrice >= previousLastPrice {
             item?["color"] = "green"
         } else {
             item?["color"] = "orange"
         }
 
-        let lockQueue = DispatchQueue(label: "self.rowsToBeReloaded")
         lockQueue.sync {
-            self.rowsToBeReloaded?.insert(IndexPath(row: itemPosition - 1, section: 0))
+            self.rowsToBeReloaded.insert(IndexPath(row: itemPosition - 1, section: 0))
+            self.itemData[itemPosition - 1] = item
+            self.itemUpdated[itemPosition - 1] = itemUpdated
         }
 
         DispatchQueue.main.async(execute: { [self] in
 
             // Update the table view
-            var rowsToBeReloaded: [AnyHashable]? = nil
-            let lockQueue = DispatchQueue(label: "self.rowsToBeReloaded")
+            var rowsToBeReloaded = [IndexPath]()
             lockQueue.sync {
-                rowsToBeReloaded = [AnyHashable](repeating: 0, count: self.rowsToBeReloaded?.count ?? 0)
-
-                for indexPath in self.rowsToBeReloaded ?? [] {
-                    guard let indexPath = indexPath as? IndexPath else {
-                        continue
-                    }
-                    rowsToBeReloaded?.append(indexPath)
+                for indexPath in self.rowsToBeReloaded {
+                    rowsToBeReloaded.append(indexPath)
                 }
 
-                self.rowsToBeReloaded?.removeAll()
+                self.rowsToBeReloaded.removeAll()
             }
 
             // Ask the table to reload the marked rows
-            if let rowsToBeReloaded = rowsToBeReloaded as? [IndexPath] {
-                table.reloadRows(at: rowsToBeReloaded, with: .none)
-            }
+            table.reloadRows(at: rowsToBeReloaded, with: .none)
         })
     }
 
@@ -211,16 +204,14 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
 
         // Retrieve the item's data structures
-        var item: [AnyHashable : Any]? = nil
-        var itemUpdated: [AnyHashable : Any]? = nil
-        let lockQueue = DispatchQueue(label: "itemData")
+        var item: [String : String?]?
+        var itemUpdated: [String : Bool]?
         lockQueue.sync {
-            item = itemData?[NSNumber(value: indexPath.row)] as? [AnyHashable : Any]
-            itemUpdated = self.itemUpdated?[NSNumber(value: indexPath.row)] as? [AnyHashable : Any]
+            item = itemData[indexPath.row]
+            itemUpdated = self.itemUpdated[indexPath.row]
         }
 
         if let item = item {
-            let lockQueue = DispatchQueue(label: "item")
             lockQueue.sync {
 
                 // Update the cell appropriately
@@ -234,34 +225,34 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     color = UIColor.white
                 }
 
-                cell?.nameLabel.text = item["stock_name"]
-                if (itemUpdated?["stock_name"] as? NSNumber)?.boolValue ?? false {
+                cell?.nameLabel.text = item["stock_name"] ?? ""
+                if itemUpdated?["stock_name"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.nameLabel, with: color)
+                        SpecialEffects.flash(cell?.nameLabel, with: color)
                     }
 
-                    itemUpdated?["stock_name"] = NSNumber(value: false)
+                    itemUpdated?["stock_name"] = false
                 }
 
-                cell?.lastLabel.text = item["last_price"]
-                if (itemUpdated?["last_price"] as? NSNumber)?.boolValue ?? false {
+                cell?.lastLabel.text = item["last_price"] ?? ""
+                if itemUpdated?["last_price"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.lastLabel, with: color)
+                        SpecialEffects.flash(cell?.lastLabel, with: color)
                     }
 
-                    itemUpdated?["last_price"] = NSNumber(value: false)
+                    itemUpdated?["last_price"] = false
                 }
 
-                cell?.timeLabel.text = item["time"]
-                if (itemUpdated?["time"] as? NSNumber)?.boolValue ?? false {
+                cell?.timeLabel.text = item["time"] ?? ""
+                if itemUpdated?["time"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.timeLabel, with: color)
+                        SpecialEffects.flash(cell?.timeLabel, with: color)
                     }
 
-                    itemUpdated?["time"] = NSNumber(value: false)
+                    itemUpdated?["time"] = false
                 }
 
-                let pctChange = (item["pct_change"] as? NSNumber)?.doubleValue ?? 0.0
+                let pctChange = toDouble(item["pct_change"] ?? "0")
                 if pctChange > 0.0 {
                     cell?.dirImage.image = UIImage(named: "Arrow-up.png")
                 } else if pctChange < 0.0 {
@@ -270,73 +261,76 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     cell?.dirImage.image = nil
                 }
 
-                if let object = item["pct_change"] {
+                if let object = item["pct_change"] ?? "0" {
                     cell?.changeLabel.text = String(format: "%@%%", object)
                 }
-                cell?.changeLabel.textColor = ((item["pct_change"] as? NSNumber)?.doubleValue ?? 0.0 >= 0.0) ? DARK_GREEN_COLOR : RED_COLOR
+                cell?.changeLabel.textColor = (toDouble(item["pct_change"] ?? "0") >= 0.0) ? DARK_GREEN_COLOR : RED_COLOR
 
-                if (itemUpdated?["pct_change"] as? NSNumber)?.boolValue ?? false {
+                if itemUpdated?["pct_change"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flashImage(cell?.dirImage, with: color)
-                        SpecialEffects.flashLabel(cell?.changeLabel, with: color)
+                        SpecialEffects.flash(cell?.changeLabel, with: color)
                     }
 
-                    itemUpdated?["pct_change"] = NSNumber(value: false)
+                    itemUpdated?["pct_change"] = false
                 }
 
-                cell?.askLabel.text = item["ask"]
-                if (itemUpdated?["ask"] as? NSNumber)?.boolValue ?? false {
+                cell?.askLabel.text = item["ask"] ?? ""
+                if itemUpdated?["ask"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.askLabel, with: color)
+                        SpecialEffects.flash(cell?.askLabel, with: color)
                     }
 
-                    itemUpdated?["ask"] = NSNumber(value: false)
+                    itemUpdated?["ask"] = false
                 }
 
-                cell?.bidLabel.text = item["bid"]
-                if (itemUpdated?["bid"] as? NSNumber)?.boolValue ?? false {
+                cell?.bidLabel.text = item["bid"] ?? ""
+                if itemUpdated?["bid"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.bidLabel, with: color)
+                        SpecialEffects.flash(cell?.bidLabel, with: color)
                     }
 
-                    itemUpdated?["bid"] = NSNumber(value: false)
+                    itemUpdated?["bid"] = false
                 }
 
-                cell?.minLabel.text = item["min"]
-                if (itemUpdated?["min"] as? NSNumber)?.boolValue ?? false {
+                cell?.minLabel.text = item["min"] ?? ""
+                if itemUpdated?["min"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.minLabel, with: color)
+                        SpecialEffects.flash(cell?.minLabel, with: color)
                     }
 
-                    itemUpdated?["min"] = NSNumber(value: false)
+                    itemUpdated?["min"] = false
                 }
 
-                cell?.maxLabel.text = item["max"]
-                if (itemUpdated?["max"] as? NSNumber)?.boolValue ?? false {
+                cell?.maxLabel.text = item["max"] ?? ""
+                if itemUpdated?["max"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.maxLabel, with: color)
+                        SpecialEffects.flash(cell?.maxLabel, with: color)
                     }
 
-                    itemUpdated?["max"] = NSNumber(value: false)
+                    itemUpdated?["max"] = false
                 }
 
-                cell?.refLabel.text = item["ref_price"]
-                if (itemUpdated?["ref_price"] as? NSNumber)?.boolValue ?? false {
+                cell?.refLabel.text = item["ref_price"] ?? ""
+                if itemUpdated?["ref_price"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.refLabel, with: color)
+                        SpecialEffects.flash(cell?.refLabel, with: color)
                     }
 
-                    itemUpdated?["ref_price"] = NSNumber(value: false)
+                    itemUpdated?["ref_price"] = false
                 }
 
-                cell?.openLabel.text = item["open_price"]
-                if (itemUpdated?["open_price"] as? NSNumber)?.boolValue ?? false {
+                cell?.openLabel.text = item["open_price"] ?? ""
+                if itemUpdated?["open_price"] ?? false {
                     if !table.isDragging {
-                        SpecialEffects.flashLabel(cell?.openLabel, with: color)
+                        SpecialEffects.flash(cell?.openLabel, with: color)
                     }
 
-                    itemUpdated?["open_price"] = NSNumber(value: false)
+                    itemUpdated?["open_price"] = false
                 }
+                
+                self.itemData[indexPath.row] = item
+                self.itemUpdated[indexPath.row] = itemUpdated
             }
         }
 
@@ -351,7 +345,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     func tableView(_ tableView: UITableView, heightForHeaderInSection section: Int) -> CGFloat {
-        return HEADER_HEIGHT
+        return CGFloat(HEADER_HEIGHT)
     }
 
     func tableView(_ tableView: UITableView, viewForHeaderInSection section: Int) -> UIView? {
