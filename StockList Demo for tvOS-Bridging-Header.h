@@ -19,7 +19,6 @@
 
 #import "Constants.h"
 #import "SpecialEffects.h"
-#import "StockListCell.h"
 #import <Lightstreamer_tvOS_Client/Lightstreamer_tvOS_Client.h>
 #import <UIKit/UIKit.h>
 

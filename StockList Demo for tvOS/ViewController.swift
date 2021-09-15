@@ -225,7 +225,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     color = UIColor.white
                 }
 
-                cell?.nameLabel.text = item["stock_name"] ?? ""
+                cell?.nameLabel?.text = item["stock_name"] ?? ""
                 if itemUpdated?["stock_name"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.nameLabel, with: color)
@@ -234,7 +234,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["stock_name"] = false
                 }
 
-                cell?.lastLabel.text = item["last_price"] ?? ""
+                cell?.lastLabel?.text = item["last_price"] ?? ""
                 if itemUpdated?["last_price"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.lastLabel, with: color)
@@ -243,7 +243,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["last_price"] = false
                 }
 
-                cell?.timeLabel.text = item["time"] ?? ""
+                cell?.timeLabel?.text = item["time"] ?? ""
                 if itemUpdated?["time"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.timeLabel, with: color)
@@ -254,17 +254,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
 
                 let pctChange = toDouble(item["pct_change"] ?? "0")
                 if pctChange > 0.0 {
-                    cell?.dirImage.image = UIImage(named: "Arrow-up.png")
+                    cell?.dirImage?.image = UIImage(named: "Arrow-up.png")
                 } else if pctChange < 0.0 {
-                    cell?.dirImage.image = UIImage(named: "Arrow-down.png")
+                    cell?.dirImage?.image = UIImage(named: "Arrow-down.png")
                 } else {
-                    cell?.dirImage.image = nil
+                    cell?.dirImage?.image = nil
                 }
 
                 if let object = item["pct_change"] ?? "0" {
-                    cell?.changeLabel.text = String(format: "%@%%", object)
+                    cell?.changeLabel?.text = String(format: "%@%%", object)
                 }
-                cell?.changeLabel.textColor = (toDouble(item["pct_change"] ?? "0") >= 0.0) ? DARK_GREEN_COLOR : RED_COLOR
+                cell?.changeLabel?.textColor = (toDouble(item["pct_change"] ?? "0") >= 0.0) ? DARK_GREEN_COLOR : RED_COLOR
 
                 if itemUpdated?["pct_change"] ?? false {
                     if !table.isDragging {
@@ -275,7 +275,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["pct_change"] = false
                 }
 
-                cell?.askLabel.text = item["ask"] ?? ""
+                cell?.askLabel?.text = item["ask"] ?? ""
                 if itemUpdated?["ask"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.askLabel, with: color)
@@ -284,7 +284,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["ask"] = false
                 }
 
-                cell?.bidLabel.text = item["bid"] ?? ""
+                cell?.bidLabel?.text = item["bid"] ?? ""
                 if itemUpdated?["bid"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.bidLabel, with: color)
@@ -293,7 +293,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["bid"] = false
                 }
 
-                cell?.minLabel.text = item["min"] ?? ""
+                cell?.minLabel?.text = item["min"] ?? ""
                 if itemUpdated?["min"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.minLabel, with: color)
@@ -302,7 +302,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["min"] = false
                 }
 
-                cell?.maxLabel.text = item["max"] ?? ""
+                cell?.maxLabel?.text = item["max"] ?? ""
                 if itemUpdated?["max"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.maxLabel, with: color)
@@ -311,7 +311,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["max"] = false
                 }
 
-                cell?.refLabel.text = item["ref_price"] ?? ""
+                cell?.refLabel?.text = item["ref_price"] ?? ""
                 if itemUpdated?["ref_price"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.refLabel, with: color)
@@ -320,7 +320,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     itemUpdated?["ref_price"] = false
                 }
 
-                cell?.openLabel.text = item["open_price"] ?? ""
+                cell?.openLabel?.text = item["open_price"] ?? ""
                 if itemUpdated?["open_price"] ?? false {
                     if !table.isDragging {
                         SpecialEffects.flash(cell?.openLabel, with: color)
