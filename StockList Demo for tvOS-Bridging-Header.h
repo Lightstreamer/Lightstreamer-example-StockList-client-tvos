@@ -18,7 +18,6 @@
 // • No need to import the Swift Bridging Header (`StockList_Demo_for_tvOS-Swift.h`), since it's already being imported from the .pch file.
 
 #import "Constants.h"
-#import "SpecialEffects.h"
 #import <Lightstreamer_tvOS_Client/Lightstreamer_tvOS_Client.h>
 #import <UIKit/UIKit.h>
 
