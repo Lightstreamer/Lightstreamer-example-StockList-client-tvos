@@ -9,8 +9,7 @@
 /* Begin PBXBuildFile section */
 		578EFE8C26F1CF42003207E3 /* Utils.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578EFE8B26F1CF42003207E3 /* Utils.swift */; };
 		8C2941038A6E6F40A5B0CB4B /* StockList Demo for tvOS-Prefix.swift in Sources */ = {isa = PBXBuildFile; fileRef = 53FE48C296511B41601BB952 /* StockList Demo for tvOS-Prefix.swift */; };
-		8C8685541C872363006DD10A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685531C872363006DD10A /* main.m */; };
-		8C8685571C872363006DD10A /* AppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685561C872363006DD10A /* AppDelegate.m */; };
+		8C8685571C872363006DD10A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685561C872363006DD10A /* AppDelegate.swift */; };
 		8C86855A1C872363006DD10A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685591C872363006DD10A /* ViewController.swift */; };
 		8C86855D1C872363006DD10A = {isa = PBXBuildFile; fileRef = 8C86855B1C872363006DD10A /* Main.storyboard */; };
 		8C86855F1C872363006DD10A /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 8C86855E1C872363006DD10A /* Assets.xcassets */; };
@@ -26,9 +25,7 @@
 		578EFE8B26F1CF42003207E3 /* Utils.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Utils.swift; sourceTree = "<group>"; };
 		7E504AAEB5BC5C9CAECC89EA /* Swiftify.README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Swiftify.README.md; sourceTree = "<group>"; };
 		8C86854F1C872363006DD10A /* Lightstreamer StockList for TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lightstreamer StockList for TV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
-		8C8685531C872363006DD10A /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
-		8C8685551C872363006DD10A /* AppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AppDelegate.h; sourceTree = "<group>"; };
-		8C8685561C872363006DD10A /* AppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AppDelegate.m; sourceTree = "<group>"; };
+		8C8685561C872363006DD10A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C8685591C872363006DD10A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
 		8C86855C1C872363006DD10A /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
 		8C86855E1C872363006DD10A /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
@@ -77,8 +74,7 @@
 		8C8685511C872363006DD10A /* StockList Demo for tvOS */ = {
 			isa = PBXGroup;
 			children = (
-				8C8685551C872363006DD10A /* AppDelegate.h */,
-				8C8685561C872363006DD10A /* AppDelegate.m */,
+				8C8685561C872363006DD10A /* AppDelegate.swift */,
 				8C8685591C872363006DD10A /* ViewController.swift */,
 				8CCDE84F1C88749400EC369E /* StockListCell.swift */,
 				8CCDE8581C887BAA00EC369E /* SpecialEffects.swift */,
@@ -88,18 +84,9 @@
 				8CCDE85E1C887D7600EC369E /* StockListSection.xib */,
 				8C86855E1C872363006DD10A /* Assets.xcassets */,
 				8C8685601C872363006DD10A /* Info.plist */,
-				8C8685521C872363006DD10A /* Supporting Files */,
 				578EFE8B26F1CF42003207E3 /* Utils.swift */,
 			);
 			path = "StockList Demo for tvOS";
-			sourceTree = "<group>";
-		};
-		8C8685521C872363006DD10A /* Supporting Files */ = {
-			isa = PBXGroup;
-			children = (
-				8C8685531C872363006DD10A /* main.m */,
-			);
-			name = "Supporting Files";
 			sourceTree = "<group>";
 		};
 		8C8685681C87290A006DD10A /* Frameworks */ = {
@@ -190,11 +177,10 @@
 			buildActionMask = 2147483647;
 			files = (
 				8C86855A1C872363006DD10A /* ViewController.swift in Sources */,
-				8C8685571C872363006DD10A /* AppDelegate.m in Sources */,
+				8C8685571C872363006DD10A /* AppDelegate.swift in Sources */,
 				8CCDE8501C88749400EC369E /* StockListCell.swift in Sources */,
 				578EFE8C26F1CF42003207E3 /* Utils.swift in Sources */,
 				8CCDE8591C887BAA00EC369E /* SpecialEffects.swift in Sources */,
-				8C8685541C872363006DD10A /* main.m in Sources */,
 				8C2941038A6E6F40A5B0CB4B /* StockList Demo for tvOS-Prefix.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
