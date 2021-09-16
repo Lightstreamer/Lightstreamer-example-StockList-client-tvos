@@ -6,14 +6,14 @@
 //  Copyright © 2016 Lightstreamer. All rights reserved.
 //
 
-import Lightstreamer_tvOS_Client
+import LightstreamerClient
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, LSClientDelegate, LSSubscriptionDelegate {
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, ClientDelegate, SubscriptionDelegate {
     private let backgroundQueue: DispatchQueue
     private let lockQueue = DispatchQueue(label: "com.lightstreamer.ViewController")
-    private let client: LSLightstreamerClient
-    private var subscription: LSSubscription?
+    private let client: LightstreamerClient
+    private var subscription: Subscription?
     private var itemUpdated: [Int : [String : Bool]]
     private var itemData: [Int : [String : String?]]
     private var rowsToBeReloaded: Set<IndexPath>
@@ -37,7 +37,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         backgroundQueue = DispatchQueue(label: "com.lightstreamer.backgroundQueue")
         
         // Create the Lightstreamer client
-        client = LSLightstreamerClient(serverAddress: PUSH_SERVER_URL, adapterSet: ADAPTER_SET)
+        client = LightstreamerClient(serverAddress: PUSH_SERVER_URL, adapterSet: ADAPTER_SET)
         super.init(coder: aDecoder)
     }
 
@@ -65,10 +65,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     private func subscribeToTable() {
         print("Subscribing to table...")
 
-        subscription = LSSubscription(subscriptionMode: "MERGE", items: TABLE_ITEMS, fields: LIST_FIELDS)
+        subscription = Subscription(subscriptionMode: .MERGE, items: TABLE_ITEMS, fields: LIST_FIELDS)
         subscription?.dataAdapter = DATA_ADAPTER
-        subscription?.requestedSnapshot = "yes"
-        subscription?.requestedMaxFrequency = "1.0"
+        subscription?.requestedSnapshot = .yes
+        subscription?.requestedMaxFrequency = .limited(1.0)
 
         subscription?.addDelegate(self)
         client.subscribe(subscription!)
@@ -77,13 +77,18 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     // MARK: -
-    // MARK: Methods of LSClientDelegate
-
-    func client(_ client: LSLightstreamerClient, didChangeProperty property: String) {
+    // MARK: Methods of ClientDelegate
+    
+    func clientDidRemoveDelegate(_ client: LightstreamerClient) {}
+    func clientDidAddDelegate(_ client: LightstreamerClient) {}
+    func client(_ client: LightstreamerClient, didReceiveServerError errorCode: Int, withMessage errorMessage: String) {}
+    
+    func client(_ client: LightstreamerClient, didChangeProperty property: String) {
         print("Client property changed: \(property)")
     }
 
-    func client(_ client: LSLightstreamerClient, didChangeStatus status: String) {
+    func client(_ client: LightstreamerClient, didChangeStatus status: LightstreamerClient.Status) {
+        let status = status.rawValue
         print("Client status changed: \(status)")
 
         if status.hasPrefix("CONNECTED:") {
@@ -111,9 +116,21 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }
 
     // MARK: -
-    // MARK: Methods of LSSubscriptionDelegate
+    // MARK: Methods of SubscriptionDelegate
+    
+    func subscription(_ subscription: Subscription, didClearSnapshotForItemName itemName: String?, itemPos: UInt) {}
+    func subscription(_ subscription: Subscription, didLoseUpdates lostUpdates: UInt, forCommandSecondLevelItemWithKey key: String) {}
+    func subscription(_ subscription: Subscription, didFailWithErrorCode code: Int, message: String?, forCommandSecondLevelItemWithKey key: String) {}
+    func subscription(_ subscription: Subscription, didEndSnapshotForItemName itemName: String?, itemPos: UInt) {}
+    func subscription(_ subscription: Subscription, didLoseUpdates lostUpdates: UInt, forItemName itemName: String?, itemPos: UInt) {}
+    func subscriptionDidRemoveDelegate(_ subscription: Subscription) {}
+    func subscriptionDidAddDelegate(_ subscription: Subscription) {}
+    func subscriptionDidSubscribe(_ subscription: Subscription) {}
+    func subscription(_ subscription: Subscription, didFailWithErrorCode code: Int, message: String?) {}
+    func subscriptionDidUnsubscribe(_ subscription: Subscription) {}
+    func subscription(_ subscription: Subscription, didReceiveRealFrequency frequency: RealMaxFrequency?) {}
 
-    func subscription(_ subscription: LSSubscription, didUpdateItem itemUpdate: LSItemUpdate) {
+    func subscription(_ subscription: Subscription, didUpdateItem itemUpdate: ItemUpdate) {
         let itemPosition = Int(itemUpdate.itemPos)
         var item: [String : String?]?
         var itemUpdated: [String : Bool]?

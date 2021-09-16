@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import UIKit
 
 // Configuration for local installation
 //#define PUSH_SERVER_URL            (@"http://localhost:8080/")

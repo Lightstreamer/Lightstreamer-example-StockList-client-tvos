@@ -8,7 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		578EFE8C26F1CF42003207E3 /* Constants.swift in Sources */ = {isa = PBXBuildFile; fileRef = 578EFE8B26F1CF42003207E3 /* Constants.swift */; };
-		578EFE8F26F31ACB003207E3 /* Lightstreamer_tvOS_Client in Frameworks */ = {isa = PBXBuildFile; productRef = 964B9B04259B879600B1F6DE /* Lightstreamer_tvOS_Client */; };
+		578EFE9226F31E48003207E3 /* LightstreamerClient in Frameworks */ = {isa = PBXBuildFile; productRef = 578EFE9126F31E48003207E3 /* LightstreamerClient */; };
 		8C8685571C872363006DD10A /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685561C872363006DD10A /* AppDelegate.swift */; };
 		8C86855A1C872363006DD10A /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8C8685591C872363006DD10A /* ViewController.swift */; };
 		8C86855D1C872363006DD10A /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 8C86855B1C872363006DD10A /* Main.storyboard */; };
@@ -20,9 +20,8 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		05CC431B95844FB9AD7AE52C /* StockList Demo for tvOS-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StockList Demo for tvOS-Prefix.pch"; sourceTree = "<group>"; };
 		578EFE8B26F1CF42003207E3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
-		7E504AAEB5BC5C9CAECC89EA /* Swiftify.README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = Swiftify.README.md; sourceTree = "<group>"; };
+		578EFE9026F31E2A003207E3 /* LightstreamerClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LightstreamerClient; path = ../LightstreamerClient; sourceTree = "<group>"; };
 		8C86854F1C872363006DD10A /* Lightstreamer StockList for TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lightstreamer StockList for TV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8685561C872363006DD10A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C8685591C872363006DD10A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -34,7 +33,6 @@
 		8CCDE8581C887BAA00EC369E /* SpecialEffects.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = SpecialEffects.swift; sourceTree = "<group>"; };
 		8CCDE85C1C887D5B00EC369E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StockListCell.xib; sourceTree = "<group>"; };
 		8CCDE85F1C887D7600EC369E /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/StockListSection.xib; sourceTree = "<group>"; };
-		9E324777ABA369F0BFEFA28F /* StockList Demo for tvOS-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "StockList Demo for tvOS-Bridging-Header.h"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -42,7 +40,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				578EFE8F26F31ACB003207E3 /* Lightstreamer_tvOS_Client in Frameworks */,
+				578EFE9226F31E48003207E3 /* LightstreamerClient in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -52,12 +50,10 @@
 		8C8685461C872363006DD10A = {
 			isa = PBXGroup;
 			children = (
+				578EFE9026F31E2A003207E3 /* LightstreamerClient */,
 				8C8685511C872363006DD10A /* StockList Demo for tvOS */,
 				8C8685681C87290A006DD10A /* Frameworks */,
 				8C8685501C872363006DD10A /* Products */,
-				05CC431B95844FB9AD7AE52C /* StockList Demo for tvOS-Prefix.pch */,
-				9E324777ABA369F0BFEFA28F /* StockList Demo for tvOS-Bridging-Header.h */,
-				7E504AAEB5BC5C9CAECC89EA /* Swiftify.README.md */,
 			);
 			sourceTree = "<group>";
 		};
@@ -111,7 +107,7 @@
 			);
 			name = "StockList Demo for tvOS";
 			packageProductDependencies = (
-				964B9B04259B879600B1F6DE /* Lightstreamer_tvOS_Client */,
+				578EFE9126F31E48003207E3 /* LightstreamerClient */,
 			);
 			productName = "StockList Demo for tvOS";
 			productReference = 8C86854F1C872363006DD10A /* Lightstreamer StockList for TV.app */;
@@ -143,7 +139,6 @@
 			);
 			mainGroup = 8C8685461C872363006DD10A;
 			packageReferences = (
-				964B9B03259B879600B1F6DE /* XCRemoteSwiftPackageReference "Lightstreamer_tvOS_Client" */,
 			);
 			productRefGroup = 8C8685501C872363006DD10A /* Products */;
 			projectDirPath = "";
@@ -336,10 +331,9 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstreamer.tvos.stocklist;
 				PRODUCT_NAME = "Lightstreamer StockList for TV";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "StockList Demo for tvOS-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Debug;
 		};
@@ -365,9 +359,8 @@
 				PRODUCT_BUNDLE_IDENTIFIER = com.lightstreamer.tvos.stocklist;
 				PRODUCT_NAME = "Lightstreamer StockList for TV";
 				PROVISIONING_PROFILE_SPECIFIER = "";
-				SWIFT_OBJC_BRIDGING_HEADER = "StockList Demo for tvOS-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
-				TVOS_DEPLOYMENT_TARGET = 9.0;
+				TVOS_DEPLOYMENT_TARGET = 10.1;
 			};
 			name = Release;
 		};
@@ -394,22 +387,10 @@
 		};
 /* End XCConfigurationList section */
 
-/* Begin XCRemoteSwiftPackageReference section */
-		964B9B03259B879600B1F6DE /* XCRemoteSwiftPackageReference "Lightstreamer_tvOS_Client" */ = {
-			isa = XCRemoteSwiftPackageReference;
-			repositoryURL = "https://github.com/Lightstreamer/Lightstreamer_tvOS_Client.git";
-			requirement = {
-				kind = upToNextMajorVersion;
-				minimumVersion = 4.3.0;
-			};
-		};
-/* End XCRemoteSwiftPackageReference section */
-
 /* Begin XCSwiftPackageProductDependency section */
-		964B9B04259B879600B1F6DE /* Lightstreamer_tvOS_Client */ = {
+		578EFE9126F31E48003207E3 /* LightstreamerClient */ = {
 			isa = XCSwiftPackageProductDependency;
-			package = 964B9B03259B879600B1F6DE /* XCRemoteSwiftPackageReference "Lightstreamer_tvOS_Client" */;
-			productName = Lightstreamer_tvOS_Client;
+			productName = LightstreamerClient;
 		};
 /* End XCSwiftPackageProductDependency section */
 	};
