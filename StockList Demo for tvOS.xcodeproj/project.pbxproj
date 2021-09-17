@@ -22,6 +22,8 @@
 /* Begin PBXFileReference section */
 		578EFE8B26F1CF42003207E3 /* Constants.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Constants.swift; sourceTree = "<group>"; };
 		578EFE9026F31E2A003207E3 /* LightstreamerClient */ = {isa = PBXFileReference; lastKnownFileType = folder; name = LightstreamerClient; path = ../LightstreamerClient; sourceTree = "<group>"; };
+		57971FC726F4D98D00058B04 /* LICENSE */ = {isa = PBXFileReference; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
+		57971FC826F4D98D00058B04 /* README.md */ = {isa = PBXFileReference; lastKnownFileType = net.daringfireball.markdown; path = README.md; sourceTree = "<group>"; };
 		8C86854F1C872363006DD10A /* Lightstreamer StockList for TV.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Lightstreamer StockList for TV.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		8C8685561C872363006DD10A /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		8C8685591C872363006DD10A /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -50,6 +52,8 @@
 		8C8685461C872363006DD10A = {
 			isa = PBXGroup;
 			children = (
+				57971FC726F4D98D00058B04 /* LICENSE */,
+				57971FC826F4D98D00058B04 /* README.md */,
 				578EFE9026F31E2A003207E3 /* LightstreamerClient */,
 				8C8685511C872363006DD10A /* StockList Demo for tvOS */,
 				8C8685681C87290A006DD10A /* Frameworks */,
