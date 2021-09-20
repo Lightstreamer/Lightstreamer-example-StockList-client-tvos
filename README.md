@@ -2,7 +2,7 @@
 
 <!-- START DESCRIPTION lightstreamer-example-stocklist-client-tvos -->
 
-This project contains an example of application for Apple TV 4th generation that employs the [Lightstreamer tvOS Client library](http://www.lightstreamer.com/api/ls-tvos-client/latest/).
+This project contains an example of application for Apple TV 4th generation that employs the [Lightstreamer Swift Client library](http://www.lightstreamer.com/api/ls-swift-client/latest/).
 
 ## Live Demo
 
@@ -15,9 +15,9 @@ This is how it looks on a real TV:
 
 ## Details
 
-This app is an Objective-C version of the [Stock-List Demos](https://github.com/Lightstreamer/Lightstreamer-example-Stocklist-client-javascript).<br>
+This app is an Swift version of the [Stock-List Demos](https://github.com/Lightstreamer/Lightstreamer-example-Stocklist-client-javascript).<br>
 
-This app uses the <b>tvOS Client API for Lightstreamer</b> to handle the communications with Lightstreamer Server. A simple user interface is implemented to display the real-time data received from Lightstreamer Server.<br>
+This app uses the <b>Swift Client API for Lightstreamer</b> to handle the communications with Lightstreamer Server. A simple user interface is implemented to display the real-time data received from Lightstreamer Server.<br>
 
 ## Install
 
@@ -31,7 +31,7 @@ A full Xcode project, ready for compilation of the app sources, is provided. Ple
 
 A full local deploy of this app requires a Lightstreamer Server 6.0 or greater installation. Follow these steps:
 
-* Set the IP address of your local Lightstreamer Server in the constant `PUSH_SERVER_URL`, defined in `Constants.h`; a ":port" part can also be added.
+* Set the IP address of your local Lightstreamer Server in the constant `PUSH_SERVER_URL`, defined in `Constants.swift`; a ":port" part can also be added.
 * Follow the installation instructions for the Data and Metadata adapters required by the demo, detailed in the [Lightstreamer - Basic Chat Demo - Java Adapter](https://github.com/Lightstreamer/Lightstreamer-example-Chat-adapter-java) project.
 
 Done this, the app should run correctly on the simulator and connect to your server.
@@ -53,7 +53,7 @@ Done this, the app should run correctly on the simulator and connect to your ser
 
 ## Lightstreamer Compatibility Notes
 
-* Code compatible with Lightstreamer tvOS Client Library version 4.0.0 or newer.
-* Build instructions compatible with Lightstreamer tvOS Client SDK version 4.3.0 or newer.
+* Code compatible with Lightstreamer Swift Client Library version 5.0.0 or newer.
+* Build instructions compatible with Lightstreamer Swift Client SDK version 5.0.0 or newer.
 * For Lightstreamer Server version 7.0 or greater. Ensure that tvOS Client SDK is supported by Lightstreamer Server license configuration.
-* For a version of this example compatible with Lightstreamer tvOS Client SDK versions up to 4.2.1, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-cocoapods).
+* For a version of this example compatible with Lightstreamer tvOS Client SDK versions up to 4, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-client-4.x).
