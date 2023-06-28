@@ -1,18 +1,18 @@
 {
   "images" : [
     {
+      "filename" : "logo-mark-400x240.png",
       "idiom" : "tv",
-      "filename" : "Small Icon-top.png",
       "scale" : "1x"
     },
     {
+      "filename" : "logo-mark-800x480.png",
       "idiom" : "tv",
-      "filename" : "Small Icon-top@2x.png",
       "scale" : "2x"
     }
   ],
   "info" : {
-    "version" : 1,
-    "author" : "xcode"
+    "author" : "xcode",
+    "version" : 1
   }
 }
