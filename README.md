@@ -53,7 +53,7 @@ Done this, the app should run correctly on the simulator and connect to your ser
 
 ## Lightstreamer Compatibility Notes
 
-* Code compatible with Lightstreamer Swift Client Library version 5.0.0 or newer.
-* Build instructions compatible with Lightstreamer Swift Client SDK version 5.0.0 or newer.
-* For Lightstreamer Server version 7.0 or greater. Ensure that tvOS Client SDK is supported by Lightstreamer Server license configuration.
+* Code compatible with Lightstreamer Swift Client Library version 6.0 or newer.
+* For Lightstreamer Server version 7.4 or greater. Ensure that tvOS Client SDK is supported by Lightstreamer Server license configuration.
+* For a version of this example compatible with Lightstreamer tvOS Client SDK versions up to 5, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-client-5.x).
 * For a version of this example compatible with Lightstreamer tvOS Client SDK versions up to 4, please refer to [this tag](https://github.com/Lightstreamer/Lightstreamer-example-StockList-client-tvos/tree/latest-for-client-4.x).
